@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Testing the user inputs
+{% endblock %}
+
+{% block main %}
+    <h2>User controls</h2>
+
+    <!-- 
+        1. File upload from local
+        2. text field for url
+
+        3. upper text
+        4. lower text
+
+        5. formatting. Color picker, transparency [0-100% ?]
+
+
+        WOuld be nice... upload image, show preview
+        Select bbox for text on the preview img.
+
+    -->
+
+    <div>
+        <form action="/" method="get">
+            <div class="form-group">
+                <label for="img_url">URL for the image:</label>
+                <input autocomplete="off" autofocus class="form-control" name="img_url" 
+                       placeholder="URL..." type="text">
+
+                <br>
+                <label for="filename">OR, select a local image file:</label>
+                <input class="form-control" name="filename" id="filename" type="file" accept="image/*">
+
+                <div> <!-- This always converts the color to RGB hex -->
+                    <label for="upper_text_color">Select color for the text:</label>
+                    <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
+                </div>
+                
+                
+                <div class="slidecontainer">
+                    <label for="transparency">Select transparency for the text:</label>
+                    <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
+                    <p>Value: <span id="transparency_val"></span></p>
+                </div>
+            
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        
+        </form>
+    </div>
+
+
+    <script>
+        var slider = document.getElementById("transparency_slider");
+        var output = document.getElementById("transparency_val");
+        output.innerHTML = slider.value;
+        
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+    </script>
+
+    <!-- Check 
+        https://www.webtrickshome.com/forum/how-to-display-uploaded-image-in-html-using-javascript 
+    
+        https://stackoverflow.com/questions/10906734/how-to-upload-image-into-html5-canvas
+
+        Dunno how to create drag boxes for defining the bbox.
+        Could it work if the user can define the 4 corner coordinates, and the bbox would
+        be updated on top of the preview image to show where the text will be put into?
+    -->
+{% endblock %}

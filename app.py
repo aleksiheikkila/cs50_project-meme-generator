@@ -14,3 +14,10 @@ def index():
     """Show index.html"""
 
     return render_template("index.html")
+
+
+@app.route("/user_inputs")
+def user_inputs():
+    """Show index.html"""
+
+    return render_template("user_inputs.html")
