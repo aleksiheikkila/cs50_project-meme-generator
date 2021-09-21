@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
+    <h1>Meme generator</h1>
+
     <h2>User controls</h2>
 
     <!-- 
@@ -20,10 +22,15 @@
         WOuld be nice... upload image, show preview
         Select bbox for text on the preview img.
 
+
+        Step 1: select base image
+
     -->
 
+    <h3>Select base image</h3>
+    <p>Either upload your local image file, or give and url</p>
     <div>
-        <form action="/" method="get">
+        <form action="/user_inputs" method="POST">
             <div class="form-group">
                 <label for="img_url">URL for the image:</label>
                 <input autocomplete="off" autofocus class="form-control" name="img_url" 
@@ -31,7 +38,22 @@
 
                 <br>
                 <label for="filename">OR, select a local image file:</label>
-                <input class="form-control" name="filename" id="filename" type="file" accept="image/*">
+                <input class="form-control" name="filename" id="filename" type="file" accept="image/*" onchange="loadFile(event)">
+                <br>
+                <button class="btn btn-primary" type="submit">Fetch image</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <img id="base-image" style="width:50%;"/>
+    </div>
+
+
+
+    <div>
+        <form action="/" method="get">
+            <div class="form-group">
 
                 <div> <!-- This always converts the color to RGB hex -->
                     <label for="upper_text_color">Select color for the text:</label>
@@ -60,6 +82,13 @@
         slider.oninput = function() {
           output.innerHTML = this.value;
         }
+
+        // Upload image from local
+        var loadFile = function(event) {
+            var image = document.getElementById('base-image');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
     </script>
 
     <!-- Check 
