@@ -76,7 +76,8 @@ def draw_text_emphasis(drawing_context, text, font, text_pos, inverse_effect_siz
 
 
 def generate_meme(url, img_path, toptext = None, bottomtext = None, 
-                  color_hex = "#c7e7e8", transparency = 0.50):
+                  color_hex = "#c7e7e8", transparency = 0.50,
+                  save_to = None):
     
     img = get_base_image(url, img_path)
     if not toptext and not bottomtext:
@@ -128,7 +129,10 @@ def generate_meme(url, img_path, toptext = None, bottomtext = None,
     combined = Image.alpha_composite(img, txt)  
 
     # Write to disk
-    combined.save("output/temp5.png")
+    if save_to:
+        combined.save(save_to)
+
+    return combined
 
 
 
@@ -179,4 +183,5 @@ if __name__ == "__main__":
     url = "https://ilmaistavaraa.com/wp-content/uploads/2012/10/image_lehti_102012-250x324.png"
     img_path = None
 
-    generate_meme(url=url, img_path = img_path, toptext="Yläkerran rivi", bottomtext="Alas tämä sitten toisaalta")
+    generate_meme(url=url, img_path = img_path, toptext="Yläkerran rivi", 
+                  bottomtext="Alas tämä sitten toisaalta")

@@ -7,7 +7,6 @@
 {% block main %}
     <h1>Meme generator</h1>
 
-    <h2>User controls</h2>
 
     <!-- 
         1. File upload from local
@@ -27,51 +26,59 @@
 
     -->
 
-    <h3>Select base image</h3>
+    <h3>STEP 1: Select base image</h3>
     <p>Either upload your local image file, or give and url</p>
     <div>
-        <form action="/user_inputs" method="POST">
+        <form action="/make_meme" method="POST">
             <div class="form-group">
-                <label for="img_url">URL for the image:</label>
-                <input autocomplete="off" autofocus class="form-control" name="img_url" 
+                <label for="base-img-url">URL for the image:</label>
+                <input autocomplete="off" autofocus class="form-control" name="img_url" id="base-img-url"
                        placeholder="URL..." type="text">
+                <button class="btn btn-primary" id="btn-fetch-img-from-url" type="button"
+                        onclick="getImgFromURL(event)">Fetch image</button>
 
                 <br>
                 <label for="filename">OR, select a local image file:</label>
-                <input class="form-control" name="filename" id="filename" type="file" accept="image/*" onchange="loadFile(event)">
-                <br>
-                <button class="btn btn-primary" type="submit">Fetch image</button>
+                <input class="form-control" name="filename" id="filename" type="file" accept="image/*" 
+                        onchange="loadFile(event)">
             </div>
+    <!--       
         </form>
     </div>
+    -->   
 
-    <div class="container">
-        <img id="base-image" style="width:50%;"/>
-    </div>
+        <div class="container">
+            <img id="base-image" style="width:50%;"/>
+        </div>
 
 
+        <h3>STEP 2: Give meme text</h3>
+        <div>
+                <div class="form-group">
 
-    <div>
-        <form action="/" method="get">
-            <div class="form-group">
+                    <div> 
+                        <label for="upper_text">Upper text:</label>
+                        <input type="text" id="upper_text" name="upper_text">
+                    </div>
 
-                <div> <!-- This always converts the color to RGB hex -->
-                    <label for="upper_text_color">Select color for the text:</label>
-                    <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
-                </div>
+                    <div> <!-- This always converts the color to RGB hex -->
+                        <label for="upper_text_color">Select color for the text:</label>
+                        <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
+                    </div>
+                    
+                    
+                    <div class="slidecontainer">
+                        <label for="transparency">Select transparency for the text:</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
+                        <p>Value: <span id="transparency_val"></span></p>
+                    </div>
                 
-                
-                <div class="slidecontainer">
-                    <label for="transparency">Select transparency for the text:</label>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
-                    <p>Value: <span id="transparency_val"></span></p>
                 </div>
-            
-            </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
         
         </form>
     </div>
+
 
 
     <script>
@@ -87,6 +94,15 @@
         var loadFile = function(event) {
             var image = document.getElementById('base-image');
             image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+        // Get from url
+        var getImgFromURL = function(event) {
+            var image = document.getElementById('base-image');
+            var url = document.getElementById('base-img-url').value;
+            if (url.length > 0) {
+                image.src = url;
+            }
         };
 
     </script>
