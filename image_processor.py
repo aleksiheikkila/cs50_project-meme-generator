@@ -29,7 +29,7 @@ def get_img_from_url(url:str):
     return img
 
 
-def get_base_image(url = None, img_path = None):
+def get_base_image(url = None, img_path = None, max_size=(640, 640)):
     if not url and not img_path:
         return None
 
@@ -37,7 +37,15 @@ def get_base_image(url = None, img_path = None):
         img = get_img_from_url(url)
     else:
         print("Trying to use image file from:", img_path)
+        #if use_stream:
+        #    with open(img_path, "rb") as f:
+        #        stream = BytesIO(f.read())
+        #        img = Image.open(stream)
+            
+        #else:
         img = Image.open(img_path)
+
+    img.thumbnail(max_size)
 
     return img
 
@@ -61,21 +69,25 @@ def get_font_and_text_size(img_size: Tuple[int, int], text: str, font_fp,
         text_size = font.getsize(text)
 
     return font, text_size
+ 
 
-
-def draw_text_emphasis(drawing_context, text, font, text_pos, inverse_effect_size = 15) -> None:
+def draw_text_emphasis(drawing_context, text, font, text_pos, 
+                        inverse_effect_size=15, max_outline_range=20) -> None:
     # draw outlines
     # there may be a better way
     # this is to draw black kind of border / emphasis around the white text
     # TODO: should the effect size be related to the font size... so like percentage
     outline_rng = int(font.size / inverse_effect_size)
+    outline_rng = min(outline_rng, max_outline_range)
+    print("outline range:", outline_rng)
     for x in range(-outline_rng, outline_rng + 1):
         for y in range(-outline_rng, outline_rng + 1):
             # TODO: why does this work?
             drawing_context.text((text_pos[0] + x, text_pos[1] + y), text, (0,0,0), font=font)
 
 
-def generate_meme(url, img_path, toptext = None, bottomtext = None, 
+def generate_meme(url, img_path, 
+                  toptext = None, bottomtext = None, 
                   color_hex = "#c7e7e8", transparency = 0.50,
                   save_to = None):
     
@@ -86,6 +98,7 @@ def generate_meme(url, img_path, toptext = None, bottomtext = None,
 
     img = img.convert("RGBA")
     img_sz = img.size
+    print("Image size:", img_sz)
 
     rgb_color = ImageColor.getcolor(color_hex, "RGB")
     rgba_color = [n for n in rgb_color] + [round(transparency * 255)]
@@ -100,8 +113,8 @@ def generate_meme(url, img_path, toptext = None, bottomtext = None,
     rgba_color = [n for n in rgb_color] + [128]
     rgba_color = tuple(rgba_color)
 
-
     if toptext:
+        print("Setting top text")
         toptext_font, toptext_size = get_font_and_text_size(img_sz, toptext, FONT_FP)
         
         # find top centered position for top text
@@ -109,12 +122,15 @@ def generate_meme(url, img_path, toptext = None, bottomtext = None,
         toptext_y = 0
         toptext_pos = (toptext_x, toptext_y)
         
+        print("Drawing emphasis")
         draw_text_emphasis(drawing_context = draw, text = toptext, font = toptext_font, 
                              text_pos = toptext_pos)
 
+        print("Drawing text")
         draw.text(toptext_pos, toptext, rgba_color, font=toptext_font)
     
     if bottomtext:
+        print("Setting bottom text")
         bottomtext_font, bottomtext_size = get_font_and_text_size(img_sz, bottomtext, FONT_FP)
         # find bottom centered position for bottom text
         bottomtext_x = (img_sz[0] / 2) - (bottomtext_size[0] / 2)
@@ -126,6 +142,7 @@ def generate_meme(url, img_path, toptext = None, bottomtext = None,
         draw.text(bottomtext_pos, bottomtext, rgba_color, font=bottomtext_font)
 
     # Combine layers
+    print("Combining")
     combined = Image.alpha_composite(img, txt)  
 
     # Write to disk
