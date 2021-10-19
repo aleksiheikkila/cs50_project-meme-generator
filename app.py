@@ -17,14 +17,14 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 
-@app.route("/")
-def index():
-    """Show index.html"""
+#@app.route("/")
+#def index():
+#    """Show index.html"""
+#
+#    return render_template("index.html")
 
-    return render_template("index.html")
 
-
-@app.route("/user_inputs", methods=["GET"])
+@app.route("/", methods=["GET"])
 def user_inputs():
     """"""
 
@@ -39,9 +39,9 @@ def make_meme():
     """
     #assert request.form["img_url"] is not None and request.form["img_url"] != ""
 
-    print(request.form)
-    print(request.form["img_url"])
-    print(request.files)
+    print("Request-form:", request.form)
+    print("Request-form img_url:", request.form["img_url"])
+    print("Request-files:", request.files)
     #print(request.form["filename"])
     #print(filename.filename)
 
@@ -74,4 +74,6 @@ def make_meme():
                              transparency = 0.01 * float(request.form["transparency"]))
 
     #return render_template("generated_meme.html", img=meme_img)
-    return serve_PIL_image(meme_img)
+    return serve_PIL_image(meme_img, as_attachment=False)
+
+

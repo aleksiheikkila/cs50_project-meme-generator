@@ -91,7 +91,12 @@ def generate_meme(url, img_path,
                   color_hex = "#c7e7e8", transparency = 0.50,
                   save_to = None):
     
+    #print("transp:", transparency)  # between 0 and 1
+
     img = get_base_image(url, img_path)
+    if img is None:
+        raise RuntimeError("Img is None")
+
     if not toptext and not bottomtext:
         # Nothing to do
         return img
@@ -110,8 +115,8 @@ def generate_meme(url, img_path,
     draw = ImageDraw.Draw(txt)
 
     # draw text, half opacity
-    rgba_color = [n for n in rgb_color] + [128]
-    rgba_color = tuple(rgba_color)
+    #rgba_color = [n for n in rgb_color] + [128]
+    #rgba_color = tuple(rgba_color)
 
     if toptext:
         print("Setting top text")
