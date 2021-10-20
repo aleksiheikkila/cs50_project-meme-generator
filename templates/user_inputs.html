@@ -107,6 +107,11 @@
             }
         };
 
+        $(document).ajaxStart(function(){ 
+                    $('#ajaxBusy').show(); 
+                    }).ajaxStop(function(){ 
+                     $('#ajaxBusy').hide();});
+
 
         // Hijack input submit
         //$('#inputform').submit(function(event) {
@@ -114,6 +119,10 @@
             // Stop form from submitting normally
             event.preventDefault();
             console.log(event)
+
+            var proc_image = document.getElementById('processed-img')
+            proc_image.src = "static/ajax-loader.gif"
+
     
             var formData = new FormData(this);
             // Get some values from elements on the page:
@@ -133,6 +142,13 @@
                 });
 
             console.log(posting)
+
+
+            // spinner in the image area
+            //posting.beforeSend(function( data ) {
+            //    var proc_image = document.getElementById('processed-img')
+            //    proc_image.src = "static/ajax-loader.gif"
+            //});
 
             // Put the results in a div
             posting.done(function( data ) {
