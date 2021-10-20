@@ -6,7 +6,7 @@ import requests
 
 from typing import Tuple
 
-FONT_FP = "fonts/Impact.ttf"
+FONT_FP = "./fonts/impact.ttf"
 
 
 def get_img_from_url(url:str):
