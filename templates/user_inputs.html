@@ -79,6 +79,7 @@
         <!-- Show the processed output image-->
         <div id="processed-img-div">
             <img id="processed-img">
+            <button id="download-meme-btn" style="display:none;" onclick="download_meme()">Download</button>
         </div>
 
 
@@ -107,27 +108,21 @@
             }
         };
 
-        $(document).ajaxStart(function(){ 
-                    $('#ajaxBusy').show(); 
-                    }).ajaxStop(function(){ 
-                     $('#ajaxBusy').hide();});
-
-
         // Hijack input submit
-        //$('#inputform').submit(function(event) {
         $('form#inputform').submit(function(event) {
             // Stop form from submitting normally
             event.preventDefault();
             console.log(event)
 
+            // Show spinner gif and hide the download button
             var proc_image = document.getElementById('processed-img')
             proc_image.src = "static/ajax-loader.gif"
+            document.getElementById('download-meme-btn').style.display = "none";
 
     
             var formData = new FormData(this);
             // Get some values from elements on the page:
             var $form = $( this )
-            //term = $form.find( "input[name='s']" ).val(),
             url = $form.attr( "action" );
             console.log(url)
 
@@ -135,7 +130,6 @@
                     url: url,
                     type: 'POST',
                     data: formData,
-                    //success: function (data) { alert(data) },
                     cache: false,
                     contentType: false,
                     processData: false
@@ -144,18 +138,24 @@
             console.log(posting)
 
 
-            // spinner in the image area
-            //posting.beforeSend(function( data ) {
-            //    var proc_image = document.getElementById('processed-img')
-            //    proc_image.src = "static/ajax-loader.gif"
-            //});
-
             // Put the results in a div
             posting.done(function( data ) {
                 var proc_image = document.getElementById('processed-img')
                 proc_image.src = data
+                document.getElementById('download-meme-btn').style.display = "block";
             });
         });
+
+        function download_meme() {
+            var proc_image = document.getElementById('processed-img')
+            var btn = document.getElementById('download-meme-btn')
+            //var gh = 
+
+            var a  = document.createElement('a');
+            a.href = proc_image.src;
+            a.download = 'meme_image.png';
+            a.click() 
+        }
 
     </script>
 

@@ -11,6 +11,7 @@ def encode_to_base64(img_io):
     data_url = 'data:image/png;base64,{}'.format(quote(data))
     return data_url
 
+
 def serve_PIL_image(pil_img, quality=70, as_attachment=True, attachment_filename="your_image.png", as_b64=True):
     img_io = BytesIO()
     pil_img.save(img_io, 'PNG')
@@ -19,7 +20,6 @@ def serve_PIL_image(pil_img, quality=70, as_attachment=True, attachment_filename
     if as_b64:
         return encode_to_base64(img_io)
 
-    
     if as_attachment:
         return send_file(img_io, 
                          mimetype='image/png', 
