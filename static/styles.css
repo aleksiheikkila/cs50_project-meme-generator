@@ -46,6 +46,29 @@ main img
     max-width: 100%;
 }
 
+h3 {
+  margin: 1;
+}
+
+.columncontainer {
+  display: flex;
+}	
+
+.column {
+  flex: 33.33%;
+  /* height: 200px; 
+  background-color: #cccccc;
+  */
+  padding: 10px;
+  margin: 5px;
+  text-align: left;
+  border-right: 3px dotted rgb(79, 185, 227);
+}
+
+.column:last-child {
+  border-right: none;
+}
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;

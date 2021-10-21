@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Meme generator</h1>
+    <h3>Meme generator</h3>
 
 
     <!-- 
@@ -25,64 +25,71 @@
         Step 1: select base image
 
     -->
+    <div class="columncontainer m-1">
 
-    <h3>STEP 1: Select base image</h3>
-    <p>Either upload your local image file, or give and url</p>
-    <div>
-        <form action="/make_meme" method="POST" enctype="multipart/form-data" id="inputform">
-            <div class="form-group">
-                <label for="base-img-url">URL for the image:</label>
-                <input autocomplete="off" autofocus class="form-control" name="img_url" id="base-img-url"
-                       placeholder="URL..." type="text">
-                <button class="btn btn-primary" id="btn-fetch-img-from-url" type="button"
-                        onclick="getImgFromURL(event)">Fetch image</button>
-
-                <br>
-                <label for="filename">OR, select a local image file:</label>
-                <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" 
-                        onchange="loadFile(event)">
-            </div>
-
-
-            <div class="container">
-                <img id="base-image" style="width:50%;"/>
-            </div>
-
-
-            <h3>STEP 2: Give meme text</h3>
+        <div class="column">
+            <h5>STEP 1: Select base image</h5>
+            <p>Either upload your local image file, or give URL:</p>
             <div>
+                <form action="/make_meme" method="POST" enctype="multipart/form-data" id="inputform">
                     <div class="form-group">
-                        <div> 
-                            <label for="upper_text">Upper text:</label>
-                            <input type="text" id="upper_text" name="upper_text">
-                        </div>
+                        <label for="base-img-url">URL for the image:</label>
+                        <input autocomplete="off" autofocus class="form-control" name="img_url" id="base-img-url"
+                            placeholder="URL..." type="text">
+                        <button class="btn btn-primary" id="btn-fetch-img-from-url" type="button"
+                                onclick="getImgFromURL(event)">Fetch</button>
 
-                        <div> <!-- This always converts the color to RGB hex -->
-                            <label for="upper_text_color">Select color for the text:</label>
-                            <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
-                        </div>
-                        
-                        
-                        <div class="slidecontainer">
-                            <label for="transparency">Select transparency for the text:</label>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
-                            <p>Value: <span id="transparency_val"></span></p>
-                        </div>
-                    
+                        <br>
+                        <label for="filename">OR, select a local image file:</label>
+                        <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" 
+                                onchange="loadFile(event)">
                     </div>
-                    <button class="btn btn-primary" type="submit">Submit</button>
-            
-            </form>
-        
-    </div>
 
-        <!-- Show the processed output image-->
-        <div id="processed-img-div">
-            <img id="processed-img">
-            <button id="download-meme-btn" style="display:none;" onclick="download_meme()">Download</button>
+                    <br>
+                    <h5>STEP 2: Give meme text</h5>
+                        <div class="form-group">
+                            <div> 
+                                <label for="upper_text">Upper text:</label>
+                                <input type="text" id="upper_text" name="upper_text">
+                            </div>
+
+                            <div> <!-- This always converts the color to RGB hex -->
+                                <label for="upper_text_color">Select color for the text:</label>
+                                <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
+                            </div>
+                            
+                            
+                            <div class="slidecontainer">
+                                <label for="transparency">Select transparency for the text:</label>
+                                <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
+                                <p>Value: <span id="transparency_val"></span></p>
+                            </div>
+                            
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+                
+            </div>
+        </div>
+
+        <div class="column">
+            <h5>Original image</h5>
+            <div class="base-img-container">
+                <img id="base-image" style="width:100%;"/>
+            </div>
         </div>
 
 
+        <!-- Show the processed output image-->
+        <div class="column">
+            <h5>Modified image</h5>
+            <div id="processed-img-div">
+                <img id="processed-img">
+                <button id="download-meme-btn" style="display:none;" onclick="download_meme()">Download</button>
+            </div>
+        </div>   
+
+    </div>
 
     <script>
         var slider = document.getElementById("transparency_slider");
