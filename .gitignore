@@ -1,6 +1,2 @@
-*.bmp
-*.png
-*.jpg
-*.jpeg
 output/
 .env
