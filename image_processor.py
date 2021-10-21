@@ -9,22 +9,29 @@ from typing import Tuple
 FONT_FP = "./fonts/impact.ttf"
 
 
-def get_img_from_url(url:str):
+def get_img_from_url(url:str) -> "Image|None":
     """Returns a PIL Image"""
     print("Trying to get an image from url:", url)
     try:
         resp = requests.get(url)
     except Exception as e:
         #print(e)
-        raise RuntimeError("Couldn't get url:", url)
+        #raise RuntimeError("Couldn't get url:", url)
+        print("Couldn't get url (Exc in requests):", url)
+        return None
+    
     if resp.status_code != 200:
-        raise RuntimeError("Couldn't get url:", url)
+        #raise RuntimeError("Couldn't get url:", url)
+        print("Couldn't get url (status_code != 200):", url)
+        return None
     
     try:
         img = Image.open(BytesIO(resp.content))
     except Exception as e:
         #print(e)
-        raise RuntimeError("Couldn't load an image from url:", url)
+        #raise RuntimeError("Couldn't load an image from url:", url)
+        print("Couldn't load an image from url (Exc in Image.open):", url)
+        return None
 
     return img
 
@@ -43,12 +50,15 @@ def get_base_image(url = None, img_path = None, max_size=(640, 640)):
         #        img = Image.open(stream)
             
         #else:
-        img = Image.open(img_path)
+        try:
+            img = Image.open(img_path)
+        except:
+            img = None
 
-    img.thumbnail(max_size)
+    if img:
+        img.thumbnail(max_size)
 
     return img
-
 
 
 def get_font_and_text_size(img_size: Tuple[int, int], text: str, font_fp,
@@ -89,66 +99,71 @@ def draw_text_emphasis(drawing_context, text, font, text_pos,
 def generate_meme(url, img_path, 
                   toptext = None, bottomtext = None, 
                   color_hex = "#c7e7e8", transparency = 0.50,
-                  save_to = None):
+                  save_to = None) -> "Image|None":
     
     #print("transp:", transparency)  # between 0 and 1
 
     img = get_base_image(url, img_path)
     if img is None:
-        raise RuntimeError("Img is None")
+        #raise RuntimeError("Img is None")
+        return None
 
     if not toptext and not bottomtext:
         # Nothing to do
         return img
 
-    img = img.convert("RGBA")
-    img_sz = img.size
-    print("Image size:", img_sz)
+    try:
+        img = img.convert("RGBA")
+        img_sz = img.size
+        print("Image size:", img_sz)
 
-    rgb_color = ImageColor.getcolor(color_hex, "RGB")
-    rgba_color = [n for n in rgb_color] + [round(transparency * 255)]
-    rgba_color = tuple(rgba_color)
+        rgb_color = ImageColor.getcolor(color_hex, "RGB")
+        rgba_color = [n for n in rgb_color] + [round(transparency * 255)]
+        rgba_color = tuple(rgba_color)
 
-    # make a blank image for the text, initialized to transparent text color
-    txt = Image.new('RGBA', img.size, (255,255,255,0))
-    # get a drawing context
-    draw = ImageDraw.Draw(txt)
+        # make a blank image for the text, initialized to transparent text color
+        txt = Image.new('RGBA', img.size, (255,255,255,0))
+        # get a drawing context
+        draw = ImageDraw.Draw(txt)
 
-    # draw text, half opacity
-    #rgba_color = [n for n in rgb_color] + [128]
-    #rgba_color = tuple(rgba_color)
+        # draw text, half opacity
+        #rgba_color = [n for n in rgb_color] + [128]
+        #rgba_color = tuple(rgba_color)
 
-    if toptext:
-        print("Setting top text")
-        toptext_font, toptext_size = get_font_and_text_size(img_sz, toptext, FONT_FP)
+        if toptext:
+            print("Setting top text")
+            toptext_font, toptext_size = get_font_and_text_size(img_sz, toptext, FONT_FP)
+            
+            # find top centered position for top text
+            toptext_x = (img_sz[0] / 2) - (toptext_size[0] / 2)
+            toptext_y = 0
+            toptext_pos = (toptext_x, toptext_y)
+            
+            print("Drawing emphasis")
+            draw_text_emphasis(drawing_context = draw, text = toptext, font = toptext_font, 
+                                text_pos = toptext_pos)
+
+            print("Drawing text")
+            draw.text(toptext_pos, toptext, rgba_color, font=toptext_font)
         
-        # find top centered position for top text
-        toptext_x = (img_sz[0] / 2) - (toptext_size[0] / 2)
-        toptext_y = 0
-        toptext_pos = (toptext_x, toptext_y)
-        
-        print("Drawing emphasis")
-        draw_text_emphasis(drawing_context = draw, text = toptext, font = toptext_font, 
-                             text_pos = toptext_pos)
+        if bottomtext:
+            print("Setting bottom text")
+            bottomtext_font, bottomtext_size = get_font_and_text_size(img_sz, bottomtext, FONT_FP)
+            # find bottom centered position for bottom text
+            bottomtext_x = (img_sz[0] / 2) - (bottomtext_size[0] / 2)
+            bottomtext_y = img_sz[1] - bottomtext_size[1] #* bottom_linecount  # added linecount
+            bottomtext_pos = (bottomtext_x, bottomtext_y) 
+            draw_text_emphasis(drawing_context = draw, text = bottomtext, font = bottomtext_font, 
+                                text_pos = bottomtext_pos)
 
-        print("Drawing text")
-        draw.text(toptext_pos, toptext, rgba_color, font=toptext_font)
+            draw.text(bottomtext_pos, bottomtext, rgba_color, font=bottomtext_font)
+
+        # Combine layers
+        print("Combining")
+        combined = Image.alpha_composite(img, txt)
     
-    if bottomtext:
-        print("Setting bottom text")
-        bottomtext_font, bottomtext_size = get_font_and_text_size(img_sz, bottomtext, FONT_FP)
-        # find bottom centered position for bottom text
-        bottomtext_x = (img_sz[0] / 2) - (bottomtext_size[0] / 2)
-        bottomtext_y = img_sz[1] - bottomtext_size[1] #* bottom_linecount  # added linecount
-        bottomtext_pos = (bottomtext_x, bottomtext_y) 
-        draw_text_emphasis(drawing_context = draw, text = bottomtext, font = bottomtext_font, 
-                             text_pos = bottomtext_pos)
-
-        draw.text(bottomtext_pos, bottomtext, rgba_color, font=bottomtext_font)
-
-    # Combine layers
-    print("Combining")
-    combined = Image.alpha_composite(img, txt)  
+    except Exception as e:
+        return None
 
     # Write to disk
     if save_to:
@@ -200,10 +215,3 @@ def generate_meme(url, img_path,
 # TODO: Transparency to the text
 # Multiline text?
 # Any easy way to let the user define the area where the text should fit?
-
-if __name__ == "__main__":
-    url = "https://ilmaistavaraa.com/wp-content/uploads/2012/10/image_lehti_102012-250x324.png"
-    img_path = None
-
-    generate_meme(url=url, img_path = img_path, toptext="Yläkerran rivi", 
-                  bottomtext="Alas tämä sitten toisaalta")

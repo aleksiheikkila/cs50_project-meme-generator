@@ -68,12 +68,14 @@ def make_meme():
     if "img_url" in request.form and request.form["img_url"] != "":
         img_url = request.form["img_url"]
 
+    
     meme_img = generate_meme(url = img_url, img_path = img_file, 
                              toptext = request.form["upper_text"],
                              color_hex = request.form["upper_text_color"], 
                              transparency = 0.01 * float(request.form["transparency"]))
+    # meme_img is either a PIL.Image or None
 
     #return render_template("generated_meme.html", img=meme_img)
-    return serve_PIL_image(meme_img, as_attachment=False)
+    return serve_PIL_image(meme_img)
 
 

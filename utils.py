@@ -12,18 +12,13 @@ def encode_to_base64(img_io):
     return data_url
 
 
-def serve_PIL_image(pil_img, quality=70, as_attachment=True, attachment_filename="your_image.png", as_b64=True):
+def serve_PIL_image(pil_img, quality=70):
+    
+    if pil_img is None:
+        return "static/error.jpg"
+
     img_io = BytesIO()
     pil_img.save(img_io, 'PNG')
     img_io.seek(0)
 
-    if as_b64:
-        return encode_to_base64(img_io)
-
-    if as_attachment:
-        return send_file(img_io, 
-                         mimetype='image/png', 
-                         as_attachment=as_attachment, 
-                         attachment_filename=attachment_filename)
-    else:
-        return send_file(img_io, mimetype='image/png')
+    return encode_to_base64(img_io)
