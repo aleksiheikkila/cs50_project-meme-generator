@@ -1,14 +1,13 @@
-from flask import Flask, flash, redirect, render_template, request, session
-
 from tempfile import mkdtemp
 from io import BytesIO
 
 import requests
+from PIL import Image
+from flask import Flask, flash, redirect, render_template, request, session
 
 from utils import serve_PIL_image
 from image_processor import generate_meme
 
-from PIL import Image
 
 # Configure application
 app = Flask(__name__)
@@ -30,7 +29,7 @@ def user_inputs():
 
     #if request.method == "POST":
 
-    return render_template("user_inputs.html")
+    return render_template("index.html")
 
 
 @app.route("/make_meme", methods=["POST"])
