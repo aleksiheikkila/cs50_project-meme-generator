@@ -128,3 +128,16 @@ border-radius: 50%;
 background: #04AA6D;
 cursor: pointer;
 }
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}

@@ -70,8 +70,9 @@ def make_meme():
     
     meme_img = generate_meme(url = img_url, img_path = img_file, 
                              toptext = request.form["upper_text"],
+                             bottomtext = request.form["lower_text"],
                              color_hex = request.form["upper_text_color"], 
-                             transparency = 0.01 * float(request.form["transparency"]))
+                             transparency = 0.01 * (100. - float(request.form["transparency"])))
     # meme_img is either a PIL.Image or None
 
     #return render_template("generated_meme.html", img=meme_img)

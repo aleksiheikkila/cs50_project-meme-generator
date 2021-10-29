@@ -29,20 +29,24 @@
 
         <div class="column">
             <h5>STEP 1: Select base image</h5>
-            <p>Either upload your local image file, or give URL:</p>
+            <p>Either give URL to an image or a local file:</p>
             <div>
                 <form action="/make_meme" method="POST" enctype="multipart/form-data" id="inputform">
                     <div class="form-group">
-                        <label for="base-img-url">URL for the image:</label>
+                        <!-- <label for="base-img-url">URL:</label> -->
                         <input autocomplete="off" autofocus class="form-control" name="img_url" 
                             id="base-img-url" placeholder="URL..." type="text">
                         <button class="btn btn-primary" id="btn-fetch-img-from-url" type="button"
                                 onclick="getImgFromURL(event)">Fetch</button>
 
                         <br>
-                        <label for="filename">OR, select a local image file:</label>
-                        <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" 
+                        <label for="img_file" class="btn custom-file-upload">
+                            <!--<i class="fa fa-cloud-upload"></i> Custom Upload-->
+                            OR, select a local file</label>
+                        <input name="img_file" id="img_file" type="file" accept="image/*" 
                                 onchange="loadFile(event)">
+                        <!--<input name="img_file" id="img_file" type="file" accept="image/*" 
+                                onchange="loadFile(event)">-->
                     </div>
 
                     <br>
@@ -52,21 +56,25 @@
                                 <label for="upper_text">Upper text:</label>
                                 <input type="text" id="upper_text" name="upper_text">
                             </div>
+                            <div>
+                                <label for="lower_text">Lower text:</label>
+                                <input type="text" id="lower_text" name="lower_text">
+                            </div>
 
                             <div> <!-- This always converts the color to RGB hex -->
-                                <label for="upper_text_color">Select color for the text:</label>
+                                <label for="upper_text_color">Text color:</label>
                                 <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
                             </div>
                             
                             
                             <div class="slidecontainer">
-                                <label for="transparency">Select transparency for the text:</label>
+                                <label for="transparency">Text transparency:</label>
                                 <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
                                 <p>Value: <span id="transparency_val"></span></p>
                             </div>
                             
                         </div>
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">Generate</button>
                 </form>
                 
             </div>

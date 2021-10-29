@@ -7,6 +7,7 @@ import requests
 from typing import Tuple
 
 FONT_FP = "./fonts/impact.ttf"
+BOTTOMTEXT_MARGIN = 15  # pixel offset from the bottom where the bottom text will be placed
 
 
 def get_img_from_url(url:str) -> "Image|None":
@@ -139,11 +140,11 @@ def generate_meme(url, img_path,
             toptext_y = 0
             toptext_pos = (toptext_x, toptext_y)
             
-            print("Drawing emphasis")
-            draw_text_emphasis(drawing_context = draw, text = toptext, font = toptext_font, 
-                                text_pos = toptext_pos)
+            #print("Drawing emphasis")
+            draw_text_emphasis(drawing_context=draw, text=toptext, font=toptext_font, 
+                               text_pos=toptext_pos)
 
-            print("Drawing text")
+            #print("Drawing text")
             draw.text(toptext_pos, toptext, rgba_color, font=toptext_font)
         
         if bottomtext:
@@ -151,10 +152,10 @@ def generate_meme(url, img_path,
             bottomtext_font, bottomtext_size = get_font_and_text_size(img_sz, bottomtext, FONT_FP)
             # find bottom centered position for bottom text
             bottomtext_x = (img_sz[0] / 2) - (bottomtext_size[0] / 2)
-            bottomtext_y = img_sz[1] - bottomtext_size[1] #* bottom_linecount  # added linecount
+            bottomtext_y = img_sz[1] - bottomtext_size[1] - BOTTOMTEXT_MARGIN
             bottomtext_pos = (bottomtext_x, bottomtext_y) 
-            draw_text_emphasis(drawing_context = draw, text = bottomtext, font = bottomtext_font, 
-                                text_pos = bottomtext_pos)
+            draw_text_emphasis(drawing_context=draw, text=bottomtext, font=bottomtext_font, 
+                                text_pos=bottomtext_pos)
 
             draw.text(bottomtext_pos, bottomtext, rgba_color, font=bottomtext_font)
 
