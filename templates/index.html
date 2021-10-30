@@ -40,13 +40,15 @@
                                 onclick="getImgFromURL(event)">Fetch</button>
 
                         <br>
-                        <label for="img_file" class="btn custom-file-upload">
-                            <!--<i class="fa fa-cloud-upload"></i> Custom Upload-->
-                            OR, select a local file</label>
-                        <input name="img_file" id="img_file" type="file" accept="image/*" 
-                                onchange="loadFile(event)">
-                        <!--<input name="img_file" id="img_file" type="file" accept="image/*" 
-                                onchange="loadFile(event)">-->
+                        <div style="margin-top: 10px;">
+                            <label for="img_file" class="btn custom-file-upload">
+                                <!--<i class="fa fa-cloud-upload"></i> Custom Upload-->
+                                OR, select a local file</label>
+                            <input name="img_file" id="img_file" type="file" accept="image/*" 
+                                    onchange="loadFile(event)">
+                            <!--<input name="img_file" id="img_file" type="file" accept="image/*" 
+                                    onchange="loadFile(event)">-->
+                        </div>
                     </div>
 
                     <br>
@@ -62,14 +64,14 @@
                             </div>
 
                             <div> <!-- This always converts the color to RGB hex -->
-                                <label for="upper_text_color">Text color:</label>
+                                <label for="upper_text_color">Color:</label>
                                 <input type="color" id="upper_text_color" name="upper_text_color" value="#e66465">
                             </div>
                             
                             
                             <div class="slidecontainer">
-                                <label for="transparency">Text transparency (current: <span id="transparency_val"></span>) </label>
-                                <input type="range" min="1" max="100" value="50" class="slider" id="transparency_slider" name="transparency">
+                                <label for="transparency">Transparency (current: <span id="transparency_val"></span>)</label>
+                                <input type="range" min="1" max="99" value="50" class="slider" id="transparency_slider" name="transparency">
                             </div>
                             
                         </div>
@@ -105,7 +107,13 @@
         output.innerHTML = slider.value;
         
         slider.oninput = function() {
-          output.innerHTML = this.value;
+          if (this.value < 10) {
+            output.innerHTML = "0" + this.value;
+          }
+          else {
+            output.innerHTML = this.value;
+          }
+          console.log(output.innerHTML)
         }
 
         function empty_processed() {
