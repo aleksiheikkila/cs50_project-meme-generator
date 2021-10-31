@@ -1,10 +1,4 @@
-from tempfile import mkdtemp
-from io import BytesIO
-
-import requests
-from PIL import Image
-from flask import Flask, flash, redirect, render_template, request, session
-
+from flask import Flask, render_template, request 
 from utils import serve_PIL_image
 from image_processor import generate_meme
 
@@ -15,67 +9,34 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-
-#@app.route("/")
-#def index():
-#    """Show index.html"""
-#
-#    return render_template("index.html")
-
-
 @app.route("/", methods=["GET"])
-def user_inputs():
-    """"""
-
-    #if request.method == "POST":
-
+def index():
+    """Render main page"""
     return render_template("index.html")
-
 
 @app.route("/make_meme", methods=["POST"])
 def make_meme():
     """
+    Endpoint to write the given text on top of the given image.
+    Used in ajax manner.
     """
-    #assert request.form["img_url"] is not None and request.form["img_url"] != ""
 
-    print("Request-form:", request.form)
-    print("Request-form img_url:", request.form["img_url"])
-    print("Request-files:", request.files)
-    #print(request.form["filename"])
-    #print(filename.filename)
-
-    #if request.form["filename"] and request.form["filename"] != "":
-    #    f = request.form["filename"].read()
-    #    print(f)
-    #    #stream = BytesIO(f.read())
-
-    #if request
     img_file = None
     if "img_file" in request.files and request.files['img_file'].filename != "":
-        #print("img_file in files")
         img_file = request.files['img_file']
-        # TODO: check that is allowed file type
-        #img_file = BytesIO(f.read())
-        #test_img1 = Image.open(f)
-        #print(test_img1.size)
-        #test_img2 = Image.open(f.read())
-        #print(test_img2.size)
-        #test_img3 = Image.open(BytesIO(f.read()))
-        #print(test_img3.size)
 
     img_url = None
     if "img_url" in request.form and request.form["img_url"] != "":
         img_url = request.form["img_url"]
-
     
-    meme_img = generate_meme(url = img_url, img_path = img_file, 
-                             toptext = request.form["upper_text"],
-                             bottomtext = request.form["lower_text"],
-                             color_hex = request.form["upper_text_color"], 
-                             transparency = 0.01 * (100. - float(request.form["transparency"])))
+    # Generate the meme
+    meme_img = generate_meme(url=img_url, 
+                             img_path=img_file, 
+                             toptext=request.form["upper_text"],
+                             bottomtext=request.form["lower_text"],
+                             color_hex=request.form["upper_text_color"], 
+                             transparency=0.01 * (100. - float(request.form["transparency"])))
     # meme_img is either a PIL.Image or None
 
-    #return render_template("generated_meme.html", img=meme_img)
+    # Serve the image
     return serve_PIL_image(meme_img)
-
-

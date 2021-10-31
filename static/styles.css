@@ -1,49 +1,22 @@
-nav .navbar-brand
-{
-    /* size for brand */
-    font-size: xx-large;
+main .form-control {
+  /* Center form controls */
+  display: inline-block;
+
+  /* Override Bootstrap's 100% width for form controls */
+  width: auto;
 }
 
-/* Colors for brand */
-nav .navbar-brand .blue
-{
-    color: #537fbe;
-}
-nav .navbar-brand .red
-{
-    color: #ea433b;
-}
-nav .navbar-brand .yellow
-{
-    color: #f5b82e;
-}
-nav .navbar-brand .green
-{
-    color: #2e944b;
+main {
+  /* Scroll horizontally as needed */
+  overflow-x: auto;
+
+  /* Center contents */
+  text-align: center;
 }
 
-main .form-control
-{
-    /* Center form controls */
-    display: inline-block;
-
-    /* Override Bootstrap's 100% width for form controls */
-    width: auto;
-}
-
-main
-{
-    /* Scroll horizontally as needed */
-    overflow-x: auto;
-
-    /* Center contents */
-    text-align: center;
-}
-
-main img
-{
-    /* Constrain images on small screens */
-    max-width: 100%;
+main img {
+  /* Constrain images on small screens */
+  max-width: 100%;
 }
 
 h3 {
@@ -56,9 +29,6 @@ h3 {
 
 .column {
   flex: 33.33%;
-  /* height: 200px; 
-  background-color: #cccccc;
-  */
   padding: 10px;
   margin: 5px;
   text-align: left;
@@ -69,46 +39,24 @@ h3 {
   border-right: none;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-/* table.portfolio td, table.portfolio th --> applied instead to all*/
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-.left {
-    position: absolute;
-      left: 10px;
-      padding: 10px;
-}
-
 .slidecontainer {
-    width: 100%;
+  width: 100%;
   }
   
 .slider {
--webkit-appearance: none;
-width: 100%;
-height: 15px;
-border-radius: 5px;
-background: #d3d3d3;
-outline: none;
-opacity: 0.7;
--webkit-transition: .2s;
-transition: opacity .2s;
+  -webkit-appearance: none;
+  width: 38%; /* 100% */
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
 }
 
 .slider:hover {
-opacity: 1;
+  opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
@@ -117,7 +65,7 @@ appearance: none;
 width: 25px;
 height: 25px;
 border-radius: 50%;
-background: #04AA6D;
+background: #007bff;
 cursor: pointer;
 }
 
@@ -125,13 +73,14 @@ cursor: pointer;
 width: 25px;
 height: 25px;
 border-radius: 50%;
-background: #04AA6D;
+background: #007bff;
 cursor: pointer;
 }
 
 input[type="file"] {
   display: none;
 }
+
 .custom-file-upload {
   border: 1px solid #ccc;
   display: inline-block;
@@ -142,22 +91,6 @@ input[type="file"] {
   border-color: #007bff;
 }
 
-
-input[type="range"]
-{
-    display: inline-block;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    width: 38%;
-}
-
 .labelgroup1 {
   width: 90px;
 }
-
-/*
-#btn-fetch-img-from-url {
-  margin-top: 5px;
-}
-*/
-
