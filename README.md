@@ -1,14 +1,14 @@
 # Meme generator
-### Video Demo:  https://youtu.be/vc0DTkMHJqg
-### Description:
+## Video Demo:  https://youtu.be/vc0DTkMHJqg
+## Description:
 
-#### What is this project?
+### What is this project?
 
 This is my final project for Harvard's CS50 (Introduction to Computer Science) course.
 
 In a nutshell, the project comprises of a webpage that allows the user to input an image file (either an URL pointing to one, or a file uploaded by user) and define some text alongside with basic text formatting. The application will overlay the defined text on top of the input (base) image in a stylish (I hope) manner. This modified image sort of resembles a meme, hence the name. The app allows the user to download the modified image (meme).
 
-#### Setup
+### Setup
 
 Prerequisites: pipenv installed (install e.g. with `pip install --user pipenv`)
 
@@ -19,7 +19,7 @@ Prerequisites: pipenv installed (install e.g. with `pip install --user pipenv`)
 For the time being, the meme gen app is also hosted on Heroku and can be accessed here:
 https://cs50-memegen.herokuapp.com/
 
-#### Description of the main files
+### Description of the main files
 
 **app.py**:
 Contains the Flask application that renders the templates, calls make_meme endpoint to request for a modified image to be processed and finally serves the resulting image.
@@ -49,7 +49,7 @@ Files defining the environment, e.g. the dependencies.
 3. Make it relatively simple, both for the user and also internally. For example, font size is automatically adjusted to make the given text fit (simple for the user), but I didn't consider breaking long texts automatically to multiple lines (simple internally).
 4. Where needed, reasonable default values are used to make the output pleasing (at least for typical kinds and sizes of images and texts)
 
-#### Possible gotchas
+### Possible gotchas
 
 At least at first, the python requests module did not work out of the box within pipenv. It nagged that it wasn't able to find libcrypto and libssl files. As a workaround, I copied the libcrypto-1_1-x64.* and libssl-1_1-x64.* files from the python distribution's bin folder (mine was …\anaconda3\Library\bin) to corresponding virtualenv's \Script folder. After this, requests was happy.
 
