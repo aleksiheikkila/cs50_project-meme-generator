@@ -13,7 +13,7 @@ def encode_to_base64(img_io) -> str:
     return data_url
 
 
-def serve_PIL_image(pil_img: "Image"|None) -> str:
+def serve_PIL_image(pil_img) -> str:
     """
     Creates BytesIO from PIL Image and encodes that to base64, 
     which is to be sent to the browser and put in the image src.
