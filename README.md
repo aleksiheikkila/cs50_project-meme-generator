@@ -41,6 +41,6 @@ https://cs50-memegen.herokuapp.com/
 
 ### Possible gotchas
 
-At least at first, the python requests module did not work out of the box within pipenv. It nagged that it wasn't able to find libcrypto and libssl files. As a workaround, I copied the libcrypto-1_1-x64.* and libssl-1_1-x64.* files from the python distribution's bin folder (mine was …\anaconda3\Library\bin) to corresponding virtualenv's \Script folder. After this, requests was happy.
+At first, the python requests module did not work out of the box within pipenv. It nagged that it wasn't able to find libcrypto and libssl files. As a workaround, I copied the libcrypto-1_1-x64.* and libssl-1_1-x64.* files from the python distribution's bin folder (mine was …\anaconda3\Library\bin) to corresponding virtualenv's \Script folder. After this, requests was happy.
 
 However, I didn't bump into this issue anymore when I later `pipenv install`'ed the whole thing from scratch.
