@@ -8,6 +8,9 @@ This is my final project for Harvard's CS50 (Introduction to Computer Science) c
 
 In a nutshell, the project comprises of a webpage that allows the user to input an image file (either an URL pointing to one, or a file uploaded by user) and define some text alongside with basic text formatting. The application will overlay the defined text on top of the input (base) image in a stylish (I hope) manner. This modified image sort of resembles a meme, hence the name. The app allows the user to download the modified image (meme).
 
+<img width="937" alt="CS50 meme generator" src="https://user-images.githubusercontent.com/8441401/139600237-85dfceb8-fdde-466c-9eae-3cbb71be7e25.png">
+
+
 ### Setup
 
 Prerequisites: pipenv installed (install e.g. with `pip install --user pipenv`)
