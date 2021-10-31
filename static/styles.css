@@ -141,3 +141,23 @@ input[type="file"] {
   background-color: #007bff;
   border-color: #007bff;
 }
+
+
+input[type="range"]
+{
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: 38%;
+}
+
+.labelgroup1 {
+  width: 90px;
+}
+
+/*
+#btn-fetch-img-from-url {
+  margin-top: 5px;
+}
+*/
+
