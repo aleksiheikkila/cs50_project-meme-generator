@@ -24,26 +24,13 @@ https://cs50-memegen.herokuapp.com/
 
 ### Description of the main files
 
-**app.py**:
-Contains the Flask application that renders the templates, calls make_meme endpoint to request for a modified image to be processed and finally serves the resulting image.
-
-**image_processor.py**:
-Contains the code taking care of obtaining and manipulating images. Image manipulation is done using Pillow (PIL) library for python.
-
-**utils.py**:
-Two utility functions related to serving the modified image (the output) to the web page.
-
-**html documents in templates folder**:
-layout.html sets the overall page layout. index.html extends the layout and contains the main content of the page.
-
-**styles.css in static folder**:
-Defines most of the CSS used in the pages (some is left in the html files).
-
-**scripts.js in static folder**:
-Contains javascript used on the page, e.g. for the slider and for making the application work in an async/ajax manner.
-
-**Pipfile and Pipfile.lock**:
-Files defining the environment, e.g. the dependencies.
+- **app.py**: Contains the Flask application that renders the templates, calls make_meme endpoint to request for a modified image to be processed and finally serves the resulting image.
+- **image_processor.py**: Contains the code taking care of obtaining and manipulating images. Image manipulation is done using Pillow (PIL) library for python.
+- **utils.py**: Two utility functions related to serving the modified image (the output) to the web page.
+- **html documents in templates folder**: layout.html sets the overall page layout. index.html extends the layout and contains the main content of the page.
+- **styles.css in static folder**: Defines most of the CSS used in the pages (some is left in the html files).
+- **scripts.js in static folder**: Contains javascript used on the page, e.g. for the slider and for making the application work in an async/ajax manner.
+- **Pipfile and Pipfile.lock**: Files defining the environment, e.g. the dependencies.
 
 #### Some design choices
 
